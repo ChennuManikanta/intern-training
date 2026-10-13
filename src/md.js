@@ -6,6 +6,7 @@ const inline = (s) => s
   .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
   .replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<em>$2</em>')
   .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+  .replace(/(?<!href="|">)\bhttps?:\/\/[^\s<|]+/g, (u) => { const url = u.replace(/[.,;:)\]]+$/, ''); return `<a href="${url}" target="_blank" rel="noopener">${url.replace(/^https?:\/\/(www\.)?/, '').slice(0, 48)}${url.length > 56 ? '…' : ''}</a>${u.slice(url.length)}` })
 
 const isRow = (l) => /^\s*\|.*\|\s*$/.test(l)
 const cells = (l) => l.trim().replace(/^\||\|$/g, '').split('|').map((c) => inline(c.trim()))

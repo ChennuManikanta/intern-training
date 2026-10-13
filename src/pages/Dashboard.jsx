@@ -1,4 +1,4 @@
-import { ROLES, SKILLS, READY, roadmap, roleSkills } from '../data.js'
+import { ROLES, SKILLS, READY, roadmap, roleSkills, attemptLabel } from '../data.js'
 import { useApp, Gauge, Bar, Icon, Tile, go } from '../ui.jsx'
 
 const greeting = () => { const h = new Date().getHours(); return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening' }
@@ -84,7 +84,7 @@ export default function Dashboard() {
             {attempts.length ? <ul className="recent">
               {attempts.slice(0, 4).map((a) => (
                 <li key={a.id}>
-                  <span className="grow">{a.kind === 'skill' ? `${SKILLS[a.focus]?.name} practice` : 'Full diagnostic'}<small className="block">{new Date(a.date).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}</small></span>
+                  <span className="grow">{attemptLabel(a)}<small className="block">{new Date(a.date).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}</small></span>
                   <b className={`score-chip ${a.score >= READY ? 'good' : a.score >= 45 ? 'mid' : 'low'}`}>{a.score}%</b>
                 </li>
               ))}

@@ -12,6 +12,8 @@ import Learn from './pages/Learn.jsx'
 import SkillGraph from './pages/SkillGraph.jsx'
 import Progress from './pages/Progress.jsx'
 import Mentor from './pages/Mentor.jsx'
+import CodeLab from './pages/CodeLab.jsx'
+import Profile from './pages/Profile.jsx'
 
 const NAV = [
   ['dashboard', 'home', 'Dashboard'],
@@ -19,9 +21,11 @@ const NAV = [
   ['roadmap', 'map', 'Roadmap'],
   ['graph', 'graph', 'Skill Graph'],
   ['progress', 'chart', 'Progress'],
+  ['code', 'code', 'Code Lab'],
   ['mentor', 'chat', 'AI Mentor'],
+  ['profile', 'user', 'Profile'],
 ]
-const MOBILE = ['dashboard', 'assess', 'mentor', 'roadmap', 'progress']
+const MOBILE = ['dashboard', 'assess', 'code', 'mentor', 'progress']
 
 const useHash = () => {
   const [h, setH] = useState(location.hash.slice(2))
@@ -66,6 +70,8 @@ export default function App() {
     graph: <SkillGraph />,
     progress: <Progress />,
     mentor: <Mentor />,
+    code: <CodeLab />,
+    profile: <Profile />,
   }[page] || <Dashboard />
   const active = page === 'learn' ? 'roadmap' : (NAV.find((n) => n[0] === page) ? page : 'dashboard')
   const initials = (profile.name || user.email || '?').split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase()
@@ -74,6 +80,7 @@ export default function App() {
   const sub = {
     dashboard: 'Your readiness at a glance', assess: 'Measure your skills with fresh, role-based questions', roadmap: 'Your prioritised plan to close skill gaps',
     graph: 'How your role skills connect', progress: 'Track how your skills improve over time', mentor: 'Your personal career mentor',
+    code: 'Write, run and debug programs', profile: 'Manage your details, goal and security',
   }[active]
 
   return (
@@ -93,8 +100,10 @@ export default function App() {
             <button className="side-edit" onClick={() => setEditGoal(true)} aria-label="Change goal" title="Change goal"><Icon n="pen" s={16} /></button>
           </div>
           <div className="side-user">
-            <div className="avatar">{initials}</div>
-            <div className="grow"><strong>{profile.name}</strong><small>{profile.branch}</small></div>
+            <a className="side-me" href="#/profile" title="View profile">
+              <div className="avatar">{initials}</div>
+              <div className="grow"><strong>{profile.name}</strong><small>View profile</small></div>
+            </a>
             <button className="side-edit" onClick={() => signOut(auth)} aria-label="Sign out" title="Sign out"><Icon n="logout" s={18} /></button>
           </div>
         </aside>
@@ -106,11 +115,10 @@ export default function App() {
             <div className="topbar-right">
               <button className="chip goal-chip" onClick={() => setEditGoal(true)} style={{ '--c': r.color }}><Icon n={r.icon} s={16} /><span>{profile.role}</span></button>
               <button className="icon-btn mobile-only" onClick={() => go('/graph')} aria-label="Skill graph"><Icon n="graph" s={20} /></button>
-              <div className="avatar desktop-only" title={user.email}>{initials}</div>
-              <button className="icon-btn mobile-only" onClick={() => signOut(auth)} aria-label="Sign out"><Icon n="logout" s={20} /></button>
+              <a className="avatar" href="#/profile" title="Profile">{initials}</a>
             </div>
           </header>
-          <main className={`content ${page === 'mentor' ? 'full' : ''}`}>{view}</main>
+          <main className={`content ${page === 'mentor' ? 'full' : page === 'code' ? 'wide' : ''}`}>{view}</main>
         </div>
 
         <nav className="bottom-nav">

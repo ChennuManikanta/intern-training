@@ -1,4 +1,4 @@
-import { SKILLS, roleSkills } from '../data.js'
+import { SKILLS, roleSkills, attemptLabel } from '../data.js'
 import { useApp, go } from '../ui.jsx'
 
 function LineChart({ points }) {
@@ -66,7 +66,7 @@ export default function Progress() {
           <ul className="recent">
             {attempts.map((a) => (
               <li key={a.id}>
-                <span>{a.kind === 'skill' ? `${SKILLS[a.focus]?.name} practice` : 'Full diagnostic'}<small className="block">{new Date(a.date).toLocaleString()} · IRI {a.iri}</small></span>
+                <span>{attemptLabel(a)}<small className="block">{new Date(a.date).toLocaleString()} · IRI {a.iri}</small></span>
                 <b>{a.score}%</b>
               </li>
             ))}

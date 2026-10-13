@@ -96,3 +96,17 @@ export function roadmap(role, levels) {
 
 export const videoSearch = (skill) =>
   `https://www.youtube.com/results?search_query=${encodeURIComponent(SKILLS[skill].name + ' tutorial for beginners')}`
+
+// Assessment sections a student can take on their own.
+export const SECTIONS = {
+  aptitude:      { name: 'Aptitude & Reasoning', icon: 'brain', color: '#8b5cf6' },
+  technical:     { name: 'Technical MCQs', icon: 'layers', color: '#6366f1' },
+  coding:        { name: 'Coding', icon: 'code', color: '#06b6d4' },
+  communication: { name: 'Communication', icon: 'chat', color: '#ec4899' },
+}
+export const TECH = (role) => roleSkills(role).filter((s) => s !== 'aptitude' && s !== 'communication')
+
+export const attemptLabel = (a) =>
+  a.kind === 'skill' ? `${SKILLS[a.focus]?.name || a.focus} practice`
+  : a.kind === 'section' ? `${SECTIONS[a.focus]?.name || a.focus} test`
+  : 'Full diagnostic'
